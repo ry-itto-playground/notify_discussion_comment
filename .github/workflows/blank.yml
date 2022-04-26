@@ -12,7 +12,7 @@ jobs:
       with:
         payload: |
           {
-            "attachments": {
+            "attachments": [
               {
                 "pretext": "New discussion comment created by ${{ github.event.comment.user.login }}",
                 "author_name": "${{ github.event.comment.user.login }}",
@@ -21,7 +21,7 @@ jobs:
                 "title_link": "${{ github.event.discussion.html_url }}",
                 "text": "${{ github.event.comment.body }}"
               }
-            }
+            ]
           }
       env:
         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DISCUSSION_CHANNEL_WEBHOOK_URL }}
