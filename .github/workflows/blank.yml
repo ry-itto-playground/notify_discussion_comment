@@ -19,7 +19,7 @@ jobs:
                 "author_link": "${{ github.event.comment.user.html_url }}",
                 "title": "${{ github.event.discussion.title }}",
                 "title_link": "${{ github.event.discussion.html_url }}"
-                "text": "${{ github.event.comment.body }}",
+                "text": "${{ github.event.comment.body }}"
               }
             }
           }
