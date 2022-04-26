@@ -18,7 +18,7 @@ jobs:
                 "author_name": "${{ github.event.comment.user.login }}",
                 "author_link": "${{ github.event.comment.user.html_url }}",
                 "title": "${{ github.event.discussion.title }}",
-                "title_link": "${{ github.event.discussion.html_url }}"
+                "title_link": "${{ github.event.discussion.html_url }}",
                 "text": "${{ github.event.comment.body }}"
               }
             }
