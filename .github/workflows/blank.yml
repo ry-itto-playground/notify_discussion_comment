@@ -20,7 +20,7 @@ jobs:
                 "title": "${{ github.event.discussion.title }}",
                 "title_link: ${{ github.event.discussion.html_url }}"
                 "text": "${{ github.event.comment.body }}",
-              },
+              }
             }
           }
       env:
