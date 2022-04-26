@@ -12,9 +12,9 @@ jobs:
       with:
         payload: |
           {
-            "text": "New discussion comment created by ${{ github.event.comment.user.login }}",
             "attachments": {
               {
+                "pre_text": "New discussion comment created by ${{ github.event.comment.user.login }}",
                 "author_name": "${{ github.event.comment.user.login }}"",
                 "author_link": "${{ github.event.comment.user.html_url }}"",
                 "title": "${{ github.event.discussion.title }}",
