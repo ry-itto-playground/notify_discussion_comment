@@ -12,8 +12,9 @@ jobs:
       id: slack-prepare
       run: |
           DISCUSSION_COMMENT="${{ github.event.comment.body }}"
-          DISCUSSION_COMMENT="$(echo "$DISCUSSION_COMMENT" | sed 's/\n/\\n/g')"
-          echo $DISCUSSION_COMMENT
+          DISCUSSION_COMMENT="${DISCUSSION_COMMENT//'%'/'%25'}"
+          DISCUSSION_COMMENT="${DISCUSSION_COMMENT//$'\n'/'%0A'}"
+          DISCUSSION_COMMENT="${DISCUSSION_COMMENT//$'\r'/'%0D'}"
           echo -E "::set-output name=discussion-comment::${DISCUSSION_COMMENT}"
     - uses: slackapi/slack-github-action@v1.18.0
       with:
