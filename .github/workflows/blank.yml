@@ -12,9 +12,9 @@ jobs:
       id: escape-body
       run: |
         BODY="${{ github.event.comment.body }}"
-        BODY=${BODY//'"'/'\"'}
-        BODY=${BODY//'\n'/'%0A'}
-        BODY=${BODY//'\r'/'%0D'}
+        BODY="${BODY//'"'/'\"'}"
+        BODY="${BODY//'\n'/'%0A'}"
+        BODY="${BODY//'\r'/'%0D'}"
         echo "::set-output name=body::${BODY}"
     - name: Send message
       env:
