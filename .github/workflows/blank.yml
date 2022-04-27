@@ -26,6 +26,7 @@ jobs:
             }
       run: |
         set -eu
+        PAYLOAD=${PAYLOAD//'"'/'\"'}
         curl \
           -X POST \
           -H "Content-Type: application/json" \
