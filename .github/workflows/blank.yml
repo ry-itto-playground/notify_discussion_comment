@@ -25,12 +25,9 @@ jobs:
               ]
             }
       run: |
-        JSON=$PAYLOAD
-        
-        echo $JSON
-        
+        set -eu
         curl \
           -X POST \
           -H "Content-Type: application/json" \
-          -d "$JSON" \
+          -d "$PAYLOAD" \
           ${{ secrets.SLACK_DISCUSSION_CHANNEL_WEBHOOK_URL }}
