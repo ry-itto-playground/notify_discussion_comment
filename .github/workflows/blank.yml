@@ -26,8 +26,6 @@ jobs:
             }
       run: |
         JSON=$PAYLOAD
-        JSON="${JSON//$'\r'/'\\r'}"
-        JSON="${JSON//$'\n'/'\\n'}"
         
         echo $JSON
         
