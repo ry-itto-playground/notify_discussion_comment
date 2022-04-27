@@ -15,8 +15,9 @@ jobs:
           ${{ github.event.comment.body }}
           EOF
           )
-          DISCUSSION_COMMENT="${DISCUSSION_COMMENT//$'\r'/''}"
-          echo -E "::set-output name=discussion-comment::${DISCUSSION_COMMENT}"
+          DISCUSSION_COMMENT="${DISCUSSION_COMMENT//$'\r'/'\\r'}"
+          DISCUSSION_COMMENT="${DISCUSSION_COMMENT//$'\n'/'\\n'}"
+          echo "::set-output name=discussion-comment::${DISCUSSION_COMMENT}"
     - uses: slackapi/slack-github-action@v1.18.0
       with:
         payload: |
