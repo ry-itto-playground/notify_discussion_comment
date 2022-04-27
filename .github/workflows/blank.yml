@@ -8,20 +8,25 @@ jobs:
   notify_discussion_comment:
     runs-on: ubuntu-latest
     steps:
+    - name: Prepare for notify
+      id: slack-prepare
+      run: |
+          DISCUSSION_COMMENT="${{ github.event.comment.body }}"
+          DISCUSSION_COMMENT="$(echo "$DISCUSSION_COMMENT" | sed -z 's/\n/\\n/g')"
+          echo "::set-output name=discussion-comment::${DISCUSSION_COMMENT}"
     - uses: slackapi/slack-github-action@v1.18.0
       with:
         payload: |
           {
             "attachments": [
               {
-                "mrkdwn_in": ["text"],
                 "pretext": "New discussion comment created by ${{ github.event.comment.user.login }}",
                 "author_name": "${{ github.event.comment.user.login }}",
                 "author_link": "${{ github.event.comment.user.html_url }}",
                 "author_icon": "${{ github.event.comment.user.avatar_url }}",
                 "title": "Comment on ${{ github.event.discussion.title }}",
                 "title_link": "${{ github.event.comment.html_url }}",
-                "text": "${{ github.event.comment.body }}"
+                "text": "${{ steps.slack-prepare.outputs.discussion-comment }}"
               }
             ]
           }
