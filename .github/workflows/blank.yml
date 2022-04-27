@@ -10,11 +10,10 @@ jobs:
     steps:
     - name: Send message
       run: |
-        JSON=$(cat << EOF
+        JSON=`cat << EOF
           {
             "attachments": [
               {
-                "mrkdwn_in": ["text"],
                 "pretext": "New discussion comment created by ${{ github.event.comment.user.login }}",
                 "author_name": "${{ github.event.comment.user.login }}",
                 "author_link": "${{ github.event.comment.user.html_url }}",
@@ -26,11 +25,11 @@ jobs:
             ]
           }
           EOF
-        )
+        `
         JSON="${JSON//$'\r'/'\\r'}"
         JSON="${JSON//$'\n'/'\\n'}"
         curl \
           -X POST \
-          -H 'Content-Type: application/json' \
+          -H "Content-Type: application/json" \
           -d "$JSON" \
           ${{ secrets.SLACK_DISCUSSION_CHANNEL_WEBHOOK_URL }}
