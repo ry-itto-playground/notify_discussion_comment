@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Send message
-      run: |
-        JSON=`cat << EOS
+      env:
+        PAYLOAD: |
             {
               "attachments": [
                 {
@@ -24,8 +24,8 @@ jobs:
                 }
               ]
             }
-            EOS
-          `
+      run: |
+        JSON=$PAYLOAD
         JSON="${JSON//$'\r'/'\\r'}"
         JSON="${JSON//$'\n'/'\\n'}"
         
