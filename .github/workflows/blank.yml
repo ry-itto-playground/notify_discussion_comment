@@ -8,19 +8,9 @@ jobs:
   notify_discussion_comment:
     runs-on: ubuntu-latest
     steps:
-    - name: Prepare for notify
-      id: slack-prepare
+    - name: Send message
       run: |
-          DISCUSSION_COMMENT=$(cat << EOF
-          ${{ github.event.comment.body }}
-          EOF
-          )
-          DISCUSSION_COMMENT="${DISCUSSION_COMMENT//$'\r'/'\\r'}"
-          DISCUSSION_COMMENT="${DISCUSSION_COMMENT//$'\n'/'\\n'}"
-          echo "::set-output name=discussion-comment::${DISCUSSION_COMMENT}"
-    - uses: slackapi/slack-github-action@v1.18.0
-      with:
-        payload: |
+        JSON=$(cat << EOF
           {
             "attachments": [
               {
@@ -31,10 +21,16 @@ jobs:
                 "author_icon": "${{ github.event.comment.user.avatar_url }}",
                 "title": "Comment on ${{ github.event.discussion.title }}",
                 "title_link": "${{ github.event.comment.html_url }}",
-                "text": "${{ steps.slack-prepare.outputs.discussion-comment }}"
+                "text": "${{ github.event.comment.body }}"
               }
             ]
           }
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DISCUSSION_CHANNEL_WEBHOOK_URL }}
-        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          EOF
+          )
+        JSON="${JSON//$'\r'/'\\r'}"
+        JSON="${JSON//$'\n'/'\\n'}"
+        curl \
+          -X POST \
+          -H 'Content-Type: application/json' \
+          -d $JSON\
+          ${{ secrets.SLACK_DISCUSSION_CHANNEL_WEBHOOK_URL }}
