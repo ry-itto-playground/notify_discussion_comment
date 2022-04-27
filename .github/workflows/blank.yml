@@ -8,6 +8,13 @@ jobs:
   notify_discussion_comment:
     runs-on: ubuntu-latest
     steps:
+    - name: Escape body
+      id: escape-body
+      run: |
+        BODY="${{ github.event.comment.body }}"
+        BODY=${BODY//'"'/'\"'}
+        BODY=${BODY//'\n'/'\\\n'}
+        echo "::set-output name=body::${BODY}"
     - name: Send message
       env:
         PAYLOAD: |
@@ -20,13 +27,11 @@ jobs:
                   "author_icon": "${{ github.event.comment.user.avatar_url }}",
                   "title": "Comment on ${{ github.event.discussion.title }}",
                   "title_link": "${{ github.event.comment.html_url }}",
-                  "text": "${{ github.event.comment.body }}"
+                  "text": "${{ steps.escape-body.outputs.body }}"
                 }
               ]
             }
       run: |
-        set -eu
-        PAYLOAD=${PAYLOAD//'"'/'\"'}
         curl \
           -X POST \
           -H "Content-Type: application/json" \
