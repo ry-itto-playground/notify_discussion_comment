@@ -10,24 +10,27 @@ jobs:
     steps:
     - name: Send message
       run: |
-        JSON=`cat << EOF
-          {
-            "attachments": [
-              {
-                "pretext": "New discussion comment created by ${{ github.event.comment.user.login }}",
-                "author_name": "${{ github.event.comment.user.login }}",
-                "author_link": "${{ github.event.comment.user.html_url }}",
-                "author_icon": "${{ github.event.comment.user.avatar_url }}",
-                "title": "Comment on ${{ github.event.discussion.title }}",
-                "title_link": "${{ github.event.comment.html_url }}",
-                "text": "${{ github.event.comment.body }}"
-              }
-            ]
-          }
-          EOF
-        `
+        JSON=`cat << EOS
+            {
+              "attachments": [
+                {
+                  "pretext": "New discussion comment created by ${{ github.event.comment.user.login }}",
+                  "author_name": "${{ github.event.comment.user.login }}",
+                  "author_link": "${{ github.event.comment.user.html_url }}",
+                  "author_icon": "${{ github.event.comment.user.avatar_url }}",
+                  "title": "Comment on ${{ github.event.discussion.title }}",
+                  "title_link": "${{ github.event.comment.html_url }}",
+                  "text": "${{ github.event.comment.body }}"
+                }
+              ]
+            }
+            EOS
+          `
         JSON="${JSON//$'\r'/'\\r'}"
         JSON="${JSON//$'\n'/'\\n'}"
+        
+        echo $JSON
+        
         curl \
           -X POST \
           -H "Content-Type: application/json" \
