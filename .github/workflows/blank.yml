@@ -26,11 +26,11 @@ jobs:
             ]
           }
           EOF
-          )
+        )
         JSON="${JSON//$'\r'/'\\r'}"
         JSON="${JSON//$'\n'/'\\n'}"
         curl \
           -X POST \
           -H 'Content-Type: application/json' \
-          -d $JSON\
+          -d "$JSON" \
           ${{ secrets.SLACK_DISCUSSION_CHANNEL_WEBHOOK_URL }}
