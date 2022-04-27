@@ -13,6 +13,7 @@ jobs:
       run: |
           DISCUSSION_COMMENT="${{ github.event.comment.body }}"
           DISCUSSION_COMMENT="$(echo "$DISCUSSION_COMMENT" | sed -z 's/\n/\\n/g')"
+          echo $DISCUSSION_COMMENT
           echo "::set-output name=discussion-comment::${DISCUSSION_COMMENT}"
     - uses: slackapi/slack-github-action@v1.18.0
       with:
